@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3
 
 from random import randint
+import os
 
 
 class Player():
@@ -67,10 +68,10 @@ def is_board_full():
 
 
 def has_won(marker):
-    """[Checking if player with marker (Either X or O) has won or not]
+    """[Checking if player with marker (either X or O) has won or not]
 
     Args:
-        marker ([str]): [E ither X or O]
+        marker ([str]): [either X or O]
 
     Returns:
         [bool]
@@ -108,7 +109,15 @@ def generate_board():
     print('     |     |     ')
 
 
-def main():
+def replay():
+    replay_input = input('Do you want to play again(y or n): ').upper()
+    while replay_input not in ['Y', 'N']:
+        replay_input = input('Please enter a valid input(y or n): ').upper()
+
+    return replay_input == 'Y'
+
+
+def play():
 
     player1 = Player()
     player2 = Player()
@@ -118,7 +127,8 @@ def main():
 
     pick_marker(player1, player2)
 
-    while not is_board_full():
+    while True:
+        os.system('clear')
         generate_board()
         position = int(input(
             f'{player1.name}, Please choose your position(from 1-9): '))
@@ -129,10 +139,17 @@ def main():
         update_board(position, player1.marker)
 
         if has_won(player1.marker):
+            os.system('clear')
             generate_board()
             print(f'Congratulations! {player1.name} has won')
-            break
+            return
 
+        if is_board_full():
+            generate_board()
+            print('The match was a tie')
+            return
+
+        os.system('clear')
         generate_board()
         position = int(input(
             f'{player2.name}, Please choose your position(from 1-9): '))
@@ -141,12 +158,23 @@ def main():
                 f'{player2.name}, Selected position is already full or is an invalid position, please choose another: '))
 
         update_board(position, player2.marker)
-        
+
         if has_won(player2.marker):
             generate_board()
             print(f'Congratulations! {player2.name} has won!...')
-            break
+            return
+
+
+def main():
+
+    play()
+
+    if replay():
+        global board_list
+        board_list = [' '] * 10
+        play()
 
 
 if __name__ == "__main__":
+    os.system('clear')
     main()
