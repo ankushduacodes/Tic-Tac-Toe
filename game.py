@@ -1,3 +1,5 @@
+#!/usr/local/bin/python3
+
 from random import randint
 
 
@@ -9,7 +11,7 @@ class Player():
         self.marker = marker
 
 
-board_list = ['X'] * 10
+board_list = [' '] * 10
 
 
 def toss():
@@ -32,6 +34,17 @@ def pick_marker(p1, p2):
     else:
         p1.marker = marker
         p2.marker = 'O'
+
+
+def update_board(position, marker):
+    """[Update the board list index at position parameter with marker]
+
+    Args:
+        position ([int]): [position index in the board list]
+        marker ([str])
+    """
+
+    board_list[position] = marker
 
 
 def is_pos_empty(position):
@@ -63,21 +76,27 @@ def has_won(marker):
         [bool]
     """
 
-    return (board_list[1] == board_list[2] == board_list[3] or  # first row
-            board_list[4] == board_list[5] == board_list[6] or  # second row
-            board_list[7] == board_list[8] == board_list[9] or  # third row
-            board_list[1] == board_list[4] == board_list[7] or  # first column
-            board_list[2] == board_list[5] == board_list[8] or  # second column
-            board_list[3] == board_list[6] == board_list[9] or  # third column
-            # first diagonal
-            board_list[1] == board_list[5] == board_list[9] or
-            # second diagonal
-            board_list[3] == board_list[5] == board_list[7]
-            == marker
-            )
+    return (
+        # first row
+        board_list[1] == board_list[2] == board_list[3] == marker or
+        # second row
+        board_list[4] == board_list[5] == board_list[6] == marker or
+        # third row
+        board_list[7] == board_list[8] == board_list[9] == marker or
+        # first column
+        board_list[1] == board_list[4] == board_list[7] == marker or
+        # second column
+        board_list[2] == board_list[5] == board_list[8] == marker or
+        # third column
+        board_list[3] == board_list[6] == board_list[9] == marker or
+        # first diagonal
+        board_list[1] == board_list[5] == board_list[9] == marker or
+        # second diagonal
+        board_list[3] == board_list[5] == board_list[7] == marker
+    )
 
 
-def board_update():
+def generate_board():
     print('     |     |     ')
     print(f'  {board_list[1]}  |  {board_list[2]}  |  {board_list[3]}  ')
     print('_____|_____|_____')
@@ -98,6 +117,35 @@ def main():
     player2.name = input('Player2, Please enter your name: ')
 
     pick_marker(player1, player2)
+
+    while not is_board_full():
+        generate_board()
+        position = int(input(
+            f'{player1.name}, Please choose your position(from 1-9): '))
+        while position not in list(range(1, 10)) or not is_pos_empty(position):
+            position = int(input(
+                f'{player1.name}, Selected position is already full or is an invalid position, please choose another: '))
+
+        update_board(position, player1.marker)
+
+        if has_won(player1.marker):
+            generate_board()
+            print(f'Congratulations! {player1.name} has won')
+            break
+
+        generate_board()
+        position = int(input(
+            f'{player2.name}, Please choose your position(from 1-9): '))
+        while position not in list(range(1, 10)) or not is_pos_empty(position):
+            position = int(input(
+                f'{player2.name}, Selected position is already full or is an invalid position, please choose another: '))
+
+        update_board(position, player2.marker)
+        
+        if has_won(player2.marker):
+            generate_board()
+            print(f'Congratulations! {player2.name} has won!...')
+            break
 
 
 if __name__ == "__main__":
