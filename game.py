@@ -132,7 +132,7 @@ def play():
         generate_board()
         position = int(input(
             f'{player1.name}, Please choose your position(from 1-9): '))
-        while position not in list(range(1, 10)) or not is_pos_empty(position):
+        while position not in range(1, 10) or not is_pos_empty(position):
             position = int(input(
                 f'{player1.name}, Selected position is already full or is an invalid position, please choose another: '))
 
@@ -153,7 +153,7 @@ def play():
         generate_board()
         position = int(input(
             f'{player2.name}, Please choose your position(from 1-9): '))
-        while position not in list(range(1, 10)) or not is_pos_empty(position):
+        while position not in range(1, 10) or not is_pos_empty(position):
             position = int(input(
                 f'{player2.name}, Selected position is already full or is an invalid position, please choose another: '))
 
