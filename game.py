@@ -9,13 +9,16 @@ class Player():
         self.marker = marker
 
 
+board_list = ['X'] * 10
+
+
 def toss():
     return randint(1, 3)
 
 
 def pick_marker(p1, p2):
-    """ Takes in two players of Player class and assigns
-    marker attritute of each player to either X or O
+    """ [Takes in two players of Player class as parameter
+    and assigns marker attritute of each player to either X or O]
     """
 
     marker = input(f'{p1.name}, Please choose from X or O: ').upper()
@@ -31,7 +34,47 @@ def pick_marker(p1, p2):
         p2.marker = 'O'
 
 
-board_list = [' '] * 10
+def is_pos_empty(position):
+    """ [Takes in position on the board and check if it is already filled or not
+    and returns True or False]
+    """
+
+    return board_list[position] == ' '
+
+
+def is_board_full():
+    """[Checks if the board is full or not]
+    """
+
+    for position in range(1, 10):
+        if is_pos_empty(position):
+            return False
+    else:
+        return True
+
+
+def has_won(marker):
+    """[Checking if player with marker (Either X or O) has won or not]
+
+    Args:
+        marker ([str]): [E ither X or O]
+
+    Returns:
+        [bool]
+    """
+
+    return (board_list[1] == board_list[2] == board_list[3] or  # first row
+            board_list[4] == board_list[5] == board_list[6] or  # second row
+            board_list[7] == board_list[8] == board_list[9] or  # third row
+            board_list[1] == board_list[4] == board_list[7] or  # first column
+            board_list[2] == board_list[5] == board_list[8] or  # second column
+            board_list[3] == board_list[6] == board_list[9] or  # third column
+            # first diagonal
+            board_list[1] == board_list[5] == board_list[9] or
+            # second diagonal
+            board_list[3] == board_list[5] == board_list[7]
+            == marker
+            )
 
 
 def board_update():
@@ -39,7 +82,7 @@ def board_update():
     print(f'  {board_list[1]}  |  {board_list[2]}  |  {board_list[3]}  ')
     print('_____|_____|_____')
     print('     |     |     ')
-    print(f'  {board_list[4]}  |  {board_list[5]}  |  {board_list[6]}  ')   
+    print(f'  {board_list[4]}  |  {board_list[5]}  |  {board_list[6]}  ')
     print('_____|_____|_____')
     print('     |     |     ')
     print(f'  {board_list[7]}  |  {board_list[8]}  |  {board_list[9]}  ')
@@ -55,7 +98,6 @@ def main():
     player2.name = input('Player2, Please enter your name: ')
 
     pick_marker(player1, player2)
-    board_update()
 
 
 if __name__ == "__main__":
