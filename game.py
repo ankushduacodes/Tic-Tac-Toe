@@ -36,6 +36,9 @@ def pick_marker(p1, p2):
         p1.marker = marker
         p2.marker = 'O'
 
+    # p1.marker = marker
+    # p2.marker = ({'X', 'O'} - set(marker)).pop()
+
 
 def update_board(position, marker):
     """[Update the board list index at position parameter with marker]
@@ -163,6 +166,12 @@ def play():
             generate_board()
             print(f'Congratulations! {player2.name} has won!...')
             return
+
+        if is_board_full():
+            generate_board()
+            print('The match was a tie')
+            return
+
 
 
 def main():
