@@ -18,26 +18,32 @@ board_list = [' '] * 10
 def toss():
     return randint(1, 3)
 
+def assign_markers(p1, p2, toss_result, marker):
+    if toss_result == 1:
+        p1.marker = marker
+        p2.marker = ({'X', 'O'} - set(marker)).pop()
+
+    else:
+        p2.marker = marker
+        p1.marker = ({'X', 'O'} - set(marker)).pop()
+
 
 def pick_marker(p1, p2):
     """ [Takes in two players of Player class as parameter
-    and assigns marker attritute of each player to either X or O]
+    and assigns marker attritute of each player to either X or O all according to toss result]
     """
 
-    marker = input(f'{p1.name}, Please choose from X or O: ').upper()
+    toss_result = toss()
+
+    if toss_result == 1:
+        marker = input(f'{p1.name}, Please choose from X or O: ').upper()
+    else:
+        marker = input(f'{p2.name}, Please choose from X or O: ').upper()
 
     while marker not in ['O', 'X']:
         marker = input('Please give valid input(either X or O): ').upper()
 
-    if marker == 'O':
-        p1.marker = marker
-        p2.marker = 'X'
-    else:
-        p1.marker = marker
-        p2.marker = 'O'
-
-    # p1.marker = marker
-    # p2.marker = ({'X', 'O'} - set(marker)).pop()
+    assign_markers(p1, p2, toss_result, marker)
 
 
 def update_board(position, marker):
@@ -133,11 +139,20 @@ def play():
     while True:
         os.system('clear')
         generate_board()
-        position = int(input(
-            f'{player1.name}, Please choose your position(from 1-9): '))
-        while position not in range(1, 10) or not is_pos_empty(position):
-            position = int(input(
-                f'{player1.name}, Selected position is already full or is an invalid position, please choose another: '))
+        while True:
+            try:
+                position = int(input(
+                f'{player1.name}, Please choose your position(from 1-9): '))
+                while position not in range(1, 10) or not is_pos_empty(position):
+                    position = int(input(
+                        f'{player1.name}, Selected position is already full or is an invalid position, please choose another: '))
+            except ValueError:
+                print('Oops!.. you entered an invalid input')
+            except Exception:
+                print("Something went wrong")
+            else:
+                break
+        
 
         update_board(position, player1.marker)
 
@@ -154,12 +169,21 @@ def play():
 
         os.system('clear')
         generate_board()
-        position = int(input(
-            f'{player2.name}, Please choose your position(from 1-9): '))
-        while position not in range(1, 10) or not is_pos_empty(position):
-            position = int(input(
-                f'{player2.name}, Selected position is already full or is an invalid position, please choose another: '))
+        while True:
+            try:
+                position = int(input(
+                    f'{player2.name}, Please choose your position(from 1-9): '))
+                while position not in range(1, 10) or not is_pos_empty(position):
+                    position = int(input(
+                        f'{player2.name}, Selected position is already full or is an invalid position, please choose another: '))
 
+            except ValueError:
+                print('Oops!.. you entered an invalid input')
+            except Exception:
+                print("Something went wrong")
+            else:
+                break
+        
         update_board(position, player2.marker)
 
         if has_won(player2.marker):
