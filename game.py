@@ -18,6 +18,7 @@ board_list = [' '] * 10
 def toss():
     return randint(1, 3)
 
+
 def assign_markers(p1, p2, toss_result, marker):
     if toss_result == 1:
         p1.marker = marker
@@ -142,19 +143,18 @@ def play():
         while True:
             try:
                 position = int(input(
-                f'{player1.name}, Please choose your position(from 1-9): '))
+                    f'{player1.name}, Please choose your position(from 1-9): '))
                 while position not in range(1, 10) or not is_pos_empty(position):
                     position = int(input(
                         f'{player1.name}, Selected position is already full or is an invalid position, please choose another: '))
+
             except ValueError:
                 print('Oops!.. you entered an invalid input')
             except Exception:
                 print("Something went wrong")
             else:
+                update_board(position, player1.marker)
                 break
-        
-
-        update_board(position, player1.marker)
 
         if has_won(player1.marker):
             os.system('clear')
@@ -182,9 +182,8 @@ def play():
             except Exception:
                 print("Something went wrong")
             else:
+                update_board(position, player2.marker)
                 break
-        
-        update_board(position, player2.marker)
 
         if has_won(player2.marker):
             generate_board()
@@ -195,7 +194,6 @@ def play():
             generate_board()
             print('The match was a tie')
             return
-
 
 
 def main():
