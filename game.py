@@ -108,6 +108,7 @@ def has_won(marker):
 
 
 def generate_board():
+    os.system.('clear')
     print('     |     |     ')
     print(f'  {board_list[1]}  |  {board_list[2]}  |  {board_list[3]}  ')
     print('_____|_____|_____')
@@ -138,7 +139,6 @@ def play():
     pick_marker(player1, player2)
 
     while True:
-        os.system('clear')
         generate_board()
         while True:
             try:
@@ -157,7 +157,6 @@ def play():
                 break
 
         if has_won(player1.marker):
-            os.system('clear')
             generate_board()
             print(f'Congratulations! {player1.name} has won')
             return
@@ -167,7 +166,6 @@ def play():
             print('The match was a tie')
             return
 
-        os.system('clear')
         generate_board()
         while True:
             try:
