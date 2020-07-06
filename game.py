@@ -108,7 +108,7 @@ def has_won(marker):
 
 
 def generate_board():
-    os.system.('clear')
+    os.system('clear')
     print('     |     |     ')
     print(f'  {board_list[1]}  |  {board_list[2]}  |  {board_list[3]}  ')
     print('_____|_____|_____')
