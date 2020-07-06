@@ -198,7 +198,7 @@ def main():
 
     play()
 
-    if replay():
+    while replay():
         global board_list
         board_list = [' '] * 10
         play()
