@@ -16,7 +16,7 @@ board_list = [' '] * 10
 
 
 def toss():
-    return randint(1, 3)
+    return randint(1, 2)
 
 
 def assign_markers(p1, p2, toss_result, marker):
@@ -52,7 +52,7 @@ def update_board(position, marker):
 
     Args:
         position ([int]): [position index in the board list]
-        marker ([str])
+        marker ([str]): [Either X or O]
     """
 
     board_list[position] = marker
@@ -61,6 +61,12 @@ def update_board(position, marker):
 def is_pos_empty(position):
     """ [Takes in position on the board and check if it is already filled or not
     and returns True or False]
+
+    Args:
+        position ([int]): [position index in the board list]
+
+    Returns:
+        [bool]
     """
 
     return board_list[position] == ' '
@@ -128,6 +134,43 @@ def replay():
     return replay_input == 'Y'
 
 
+def player_turn(player):
+    """
+        Args:
+            player ([class Player])
+
+        Returns:
+            [bool]
+    """
+
+    generate_board()
+    while True:
+        try:
+            position = int(input(
+                f'{player.name}, Please choose your position(from 1-9): '))
+            while position not in range(1, 10) or not is_pos_empty(position):
+                position = int(input(
+                    f'{player.name}, Selected position is already full or is an invalid position, please choose another: '))
+
+        except ValueError:
+            print('Oops!.. you entered an invalid input')
+        except Exception:
+            print("Something went wrong")
+        else:
+            update_board(position, player.marker)
+            break
+
+    if has_won(player.marker):
+        generate_board()
+        print(f'Congratulations! {player.name} has won')
+        return True
+
+    if is_board_full():
+        generate_board()
+        print('The match was a tie')
+        return True
+
+
 def play():
 
     player1 = Player()
@@ -138,60 +181,26 @@ def play():
 
     pick_marker(player1, player2)
 
+    toss_result = toss()
+
+    player1_go = False
+
+    if toss_result == 1:
+        player_turn(player1)
+        player1_go = True
+    else:
+        player_turn(player2)
+        player1_go = False
+
     while True:
-        generate_board()
-        while True:
-            try:
-                position = int(input(
-                    f'{player1.name}, Please choose your position(from 1-9): '))
-                while position not in range(1, 10) or not is_pos_empty(position):
-                    position = int(input(
-                        f'{player1.name}, Selected position is already full or is an invalid position, please choose another: '))
-
-            except ValueError:
-                print('Oops!.. you entered an invalid input')
-            except Exception:
-                print("Something went wrong")
-            else:
-                update_board(position, player1.marker)
+        if player1_go:
+            if player_turn(player2):
                 break
-
-        if has_won(player1.marker):
-            generate_board()
-            print(f'Congratulations! {player1.name} has won')
-            return
-
-        if is_board_full():
-            generate_board()
-            print('The match was a tie')
-            return
-
-        generate_board()
-        while True:
-            try:
-                position = int(input(
-                    f'{player2.name}, Please choose your position(from 1-9): '))
-                while position not in range(1, 10) or not is_pos_empty(position):
-                    position = int(input(
-                        f'{player2.name}, Selected position is already full or is an invalid position, please choose another: '))
-
-            except ValueError:
-                print('Oops!.. you entered an invalid input')
-            except Exception:
-                print("Something went wrong")
-            else:
-                update_board(position, player2.marker)
+            player1_go = False
+        else:
+            if player_turn(player1):
                 break
-
-        if has_won(player2.marker):
-            generate_board()
-            print(f'Congratulations! {player2.name} has won!...')
-            return
-
-        if is_board_full():
-            generate_board()
-            print('The match was a tie')
-            return
+            player1_go = True
 
 
 def main():
