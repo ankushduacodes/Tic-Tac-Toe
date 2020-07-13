@@ -92,8 +92,9 @@ def has_won(marker):
         [bool] or [None]
     """
 
-    winning_positions_list = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
-    
+    winning_positions_list = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [
+        1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
+
     for winning_positions in winning_positions_list:
         if board[winning_positions[0]] == board[winning_positions[1]] == board[winning_positions[2]] == marker:
             return True
@@ -101,7 +102,7 @@ def has_won(marker):
 
 
 def generate_board():
-    os.system('clear')
+    # os.system('clear')
     print('     |     |     ')
     print(f'  {board[1]}  |  {board[2]}  |  {board[3]}  ')
     print('_____|_____|_____')
@@ -156,7 +157,7 @@ def player_turn(player):
         generate_board()
         print('The match was a tie')
         return True
-    
+
     return False
 
 
@@ -176,20 +177,20 @@ def play():
 
     if toss_result == 1:
         player_turn(player1)
-        player1_go = True
+        player1_go = not player1_go
     else:
         player_turn(player2)
-        player1_go = False
+        player1_go = player1_go
 
     while True:
         if player1_go:
             if player_turn(player2):
                 break
-            player1_go = False
+            player1_go = not player1_go
         else:
             if player_turn(player1):
                 break
-            player1_go = True
+            player1_go = not player1_go
 
 
 def main():
