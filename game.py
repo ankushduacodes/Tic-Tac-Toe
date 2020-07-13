@@ -4,6 +4,11 @@ from random import randint
 import os
 
 
+class PositionAlreadyFullError(Exception):
+    def init(self):
+        pass
+
+
 class Player():
 
     def __init__(self, name='', marker=''):
@@ -137,14 +142,21 @@ def player_turn(player):
         try:
             position = int(input(
                 f'{player.name}, Please choose your position(from 1-9): '))
-            while position not in range(1, 10) or not is_pos_empty(position):
-                position = int(input(
-                    f'{player.name}, Selected position is already full or is an invalid position, please choose another: '))
+            if position not in range(1, 10):
+                raise IndexError
+            if not is_pos_empty(position):
+                raise PositionAlreadyFullError
 
+        except PositionAlreadyFullError:
+            print(
+                'The position is already full, Please choose another position')
         except ValueError:
             print('Oops!.. you entered an invalid input')
+        except IndexError:
+            print('Oops!.. you entered an invalid Position')
         except Exception:
             print("Something went wrong")
+
         else:
             update_board(position, player.marker)
             break
