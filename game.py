@@ -93,9 +93,9 @@ def has_won(marker):
         [bool] or [None]
     """
 
-    match_list = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
+    match_pos_list = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
     
-    for match in match_list:
+    for match in match_pos_list:
         if board_list[match[0]] == board_list[match[1]] == board_list[match[2]] == marker:
             return True
     return False
