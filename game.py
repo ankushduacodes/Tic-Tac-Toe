@@ -90,27 +90,15 @@ def has_won(marker):
         marker ([str]): [either X or O]
 
     Returns:
-        [bool]
+        [bool] or [None]
     """
 
-    return (
-        # first row
-        board_list[1] == board_list[2] == board_list[3] == marker or
-        # second row
-        board_list[4] == board_list[5] == board_list[6] == marker or
-        # third row
-        board_list[7] == board_list[8] == board_list[9] == marker or
-        # first column
-        board_list[1] == board_list[4] == board_list[7] == marker or
-        # second column
-        board_list[2] == board_list[5] == board_list[8] == marker or
-        # third column
-        board_list[3] == board_list[6] == board_list[9] == marker or
-        # first diagonal
-        board_list[1] == board_list[5] == board_list[9] == marker or
-        # second diagonal
-        board_list[3] == board_list[5] == board_list[7] == marker
-    )
+    match_list = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
+    
+    for match in match_list:
+        if board_list[match[0]] == board_list[match[1]] == board_list[match[2]] == marker:
+            return True
+    return False
 
 
 def generate_board():
@@ -169,6 +157,8 @@ def player_turn(player):
         generate_board()
         print('The match was a tie')
         return True
+    
+    return False
 
 
 def play():
