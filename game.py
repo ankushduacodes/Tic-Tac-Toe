@@ -102,7 +102,7 @@ def has_won(marker):
 
 
 def generate_board():
-    # os.system('clear')
+    os.system('clear')
     print('     |     |     ')
     print(f'  {board[1]}  |  {board[2]}  |  {board[3]}  ')
     print('_____|_____|_____')
@@ -123,12 +123,13 @@ def replay():
 
 
 def player_turn(player):
-    """
-        Args:
-            player ([class Player])
+    """[Updates the board with player's marker]
 
-        Returns:
-            [bool]
+    Args:
+        player ([class Player])
+
+    Returns:
+        [bool]
     """
 
     generate_board()
