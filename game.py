@@ -12,7 +12,7 @@ class Player():
         self.marker = marker
 
 
-board_list = [' '] * 10
+board = [' '] * 10
 
 
 def toss():
@@ -55,7 +55,7 @@ def update_board(position, marker):
         marker ([str]): [Either X or O]
     """
 
-    board_list[position] = marker
+    board[position] = marker
 
 
 def is_pos_empty(position):
@@ -69,7 +69,7 @@ def is_pos_empty(position):
         [bool]
     """
 
-    return board_list[position] == ' '
+    return board[position] == ' '
 
 
 def is_board_full():
@@ -79,8 +79,7 @@ def is_board_full():
     for position in range(1, 10):
         if is_pos_empty(position):
             return False
-    else:
-        return True
+    return True
 
 
 def has_won(marker):
@@ -93,10 +92,10 @@ def has_won(marker):
         [bool] or [None]
     """
 
-    match_pos_list = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
+    winning_positions_list = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
     
-    for match in match_pos_list:
-        if board_list[match[0]] == board_list[match[1]] == board_list[match[2]] == marker:
+    for winning_positions in winning_positions_list:
+        if board[winning_positions[0]] == board[winning_positions[1]] == board[winning_positions[2]] == marker:
             return True
     return False
 
@@ -104,13 +103,13 @@ def has_won(marker):
 def generate_board():
     os.system('clear')
     print('     |     |     ')
-    print(f'  {board_list[1]}  |  {board_list[2]}  |  {board_list[3]}  ')
+    print(f'  {board[1]}  |  {board[2]}  |  {board[3]}  ')
     print('_____|_____|_____')
     print('     |     |     ')
-    print(f'  {board_list[4]}  |  {board_list[5]}  |  {board_list[6]}  ')
+    print(f'  {board[4]}  |  {board[5]}  |  {board[6]}  ')
     print('_____|_____|_____')
     print('     |     |     ')
-    print(f'  {board_list[7]}  |  {board_list[8]}  |  {board_list[9]}  ')
+    print(f'  {board[7]}  |  {board[8]}  |  {board[9]}  ')
     print('     |     |     ')
 
 
@@ -198,8 +197,8 @@ def main():
     play()
 
     while replay():
-        global board_list
-        board_list = [' '] * 10
+        global board
+        board = [' '] * 10
         play()
 
 
