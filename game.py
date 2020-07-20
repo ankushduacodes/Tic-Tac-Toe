@@ -9,6 +9,11 @@ class PositionAlreadyFullError(Exception):
         pass
 
 
+class BadChoiceError(Exception):
+    def __init__(self):
+        pass
+
+
 class Player():
 
     def __init__(self, name='', marker=''):
@@ -25,6 +30,7 @@ def toss():
 
 
 def assign_markers(p1, p2, toss_result, marker):
+
     if toss_result == 1:
         p1.marker = marker
         p2.marker = ({'X', 'O'} - set(marker)).pop()
@@ -35,19 +41,34 @@ def assign_markers(p1, p2, toss_result, marker):
 
 
 def pick_marker(p1, p2):
-    """ [Takes in two players of Player class as parameter
-    and assigns marker attritute of each player to either X or O all according to toss result]
+    """[Takes in two players of Player class as parameter 
+    and assigns marker attritute of each player to either X or O all 
+    according to toss result]
+
+    Args:
+        p1 ([Player class object])
+        p2 ([player class object])
+
+    Raises:
+        BadChoiceError: [Raised if the given input does not match the criteria of what the program wants]
     """
+    toss_result = toss()    #
 
-    toss_result = toss()
-
-    if toss_result == 1:
-        marker = input(f'{p1.name}, Please choose from X or O: ').upper()
-    else:
-        marker = input(f'{p2.name}, Please choose from X or O: ').upper()
-
-    while marker not in ['O', 'X']:
-        marker = input('Please give valid input(either X or O): ').upper()
+    while True:
+        try:
+            if toss_result == 1:
+                marker = input(
+                    f'{p1.name}, Please choose from X or O: ').upper()
+                if marker not in ['X', 'O']:
+                    raise BadChoiceError
+            elif toss_result == 2:
+                marker = input(
+                    f'{p2.name}, Please choose from X or O: ').upper()
+                if marker not in ['X', 'O']:
+                    raise BadChoiceError
+            break
+        except BadChoiceError:
+            print('Invalid input')
 
     assign_markers(p1, p2, toss_result, marker)
 
@@ -71,7 +92,7 @@ def is_pos_empty(position):
         position ([int]): [position index in the board list]
 
     Returns:
-        [bool]
+        [bool]: [return True if position is empty space else False]
     """
 
     return board[position] == ' '
@@ -94,7 +115,7 @@ def has_won(marker):
         marker ([str]): [either X or O]
 
     Returns:
-        [bool] or [None]
+        [bool]: [return True if a player with [marker] has won else False]
     """
 
     winning_positions_list = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [
@@ -107,6 +128,8 @@ def has_won(marker):
 
 
 def generate_board():
+    """[Generates board for the players to be seen]
+    """
     os.system('clear')
     print('     |     |     ')
     print(f'  {board[1]}  |  {board[2]}  |  {board[3]}  ')
@@ -118,8 +141,15 @@ def generate_board():
     print(f'  {board[7]}  |  {board[8]}  |  {board[9]}  ')
     print('     |     |     ')
 
+# fix it with try except if possible
+
 
 def replay():
+    """[Asks player if they want to play again]
+
+    Returns:
+        [bool]
+    """
     replay_input = input('Do you want to play again(y or n): ').upper()
     while replay_input not in ['Y', 'N']:
         replay_input = input('Please enter a valid input(y or n): ').upper()
@@ -133,8 +163,12 @@ def player_turn(player):
     Args:
         player ([class Player])
 
+    Raises:
+        IndexError: [Raised if the entered position is not in range of 1 to 9 (including 9)]
+        PositionAlreadyFullError: [Raised if the entered poisition is already filled with a marker(either X or O)]
+
     Returns:
-        [bool]
+        [bool]: [True if a player has won or the board is full else False]
     """
 
     generate_board()
@@ -175,7 +209,8 @@ def player_turn(player):
 
 
 def play():
-
+    """[handles the logic of turns of each player]
+    """
     player1 = Player()
     player2 = Player()
 
