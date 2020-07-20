@@ -109,7 +109,7 @@ def is_board_full():
 
 
 def has_won(marker):
-    """[Checking if player with marker (either X or O) has won or not]
+    """[Checking if player with [marker] (either X or O) has won or not]
 
     Args:
         marker ([str]): [either X or O]
@@ -130,6 +130,7 @@ def has_won(marker):
 def generate_board():
     """[Generates board for the players to be seen]
     """
+
     os.system('clear')
     print('     |     |     ')
     print(f'  {board[1]}  |  {board[2]}  |  {board[3]}  ')
@@ -141,9 +142,8 @@ def generate_board():
     print(f'  {board[7]}  |  {board[8]}  |  {board[9]}  ')
     print('     |     |     ')
 
+
 # fix it with try except if possible
-
-
 def replay():
     """[Asks player if they want to play again]
 
@@ -168,7 +168,7 @@ def player_turn(player):
         PositionAlreadyFullError: [Raised if the entered poisition is already filled with a marker(either X or O)]
 
     Returns:
-        [bool]: [True if a player has won or the board is full else False]
+        [bool]: [returns True if a player has won or the board is full else False]
     """
 
     generate_board()
