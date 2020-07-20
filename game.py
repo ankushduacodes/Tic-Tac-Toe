@@ -221,6 +221,7 @@ def play():
 
     toss_result = toss()
 
+    # boolean flag which is set to true when player1 makes its turn and set to false when player2 makes its turn
     player1_go = False
 
     if toss_result == 1:
@@ -228,7 +229,6 @@ def play():
         player1_go = not player1_go
     else:
         player_turn(player2)
-        player1_go = player1_go
 
     while True:
         if player1_go:
